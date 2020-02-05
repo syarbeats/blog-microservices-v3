@@ -7,6 +7,7 @@ import com.mitrais.cdc.blogmicroservices.mapper.PostMapperV1;
 import com.mitrais.cdc.blogmicroservices.payload.CategoryPayload;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
 import com.mitrais.cdc.blogmicroservices.repository.PostRepository;
+import com.mitrais.cdc.blogmicroservices.services.KafkaService;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,11 +35,13 @@ public class PostServiceImpl implements PostService {
 
     private final PostMapper postMapper;
     private final PostMapperV1 postMapperV1;
+    private KafkaService kafkaService;
 
-    public PostServiceImpl(PostRepository postRepository, PostMapper postMapper, PostMapperV1 postMapperV1) {
+    public PostServiceImpl(PostRepository postRepository, PostMapper postMapper, PostMapperV1 postMapperV1, KafkaService kafkaService) {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.postMapperV1 = postMapperV1;
+        this.kafkaService = kafkaService;
     }
 
     @Override
@@ -46,6 +49,9 @@ public class PostServiceImpl implements PostService {
         log.debug("Request to save Post : {}", postDTO);
         Post post = postMapper.toEntity(postDTO);
         post = postRepository.save(post);
+        postDTO.setId(post.getId());
+        kafkaService.publishBlogCreationMessage(postDTO);
+        log.info("Publish Blog Data Creation...");
         return postMapper.toDto(post);
     }
 
