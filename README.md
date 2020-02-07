@@ -11,11 +11,13 @@ secret key sharing between gateway application and its microservices.
 2. Blog-config: https://github.com/syarbeats/blog-config.git
 3. Blog-app-config: https://github.com/syarbeats/configuration-server.git
 4. Gateway Application: https://github.com/syarbeats/gateway-application-v3.git
+5. Approval Microservice: https://github.com/syarbeats/approval-service.git
 
 ## URL
 1. Spring Eureuka URL: http://localhost:8761/
 2. Swagger UI for Gateway App: http://localhost:8090/swagger-ui.html
 3. Swagger UI for Blog Microservices: http://localhost:8081/swagger-ui.html
+4. Swagger UI for Approval Microservices: http://localhost:8087/swagger-ui.html
 
 ## The Stacks:
 1. Springboot 2.1.6
