@@ -59,8 +59,11 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public Page<PostPayload> findAll(Pageable pageable) {
         log.debug("Request to get all Posts");
-        return postRepository.findAll(pageable)
-            .map(postMapper::toDto);
+        /*return postRepository.findAll(pageable)
+            .map(postMapper::toDto);*/
+
+        return postRepository.getAllApprovedBlog(pageable, true)
+                .map(postMapper::toDto);
     }
 
     @Override

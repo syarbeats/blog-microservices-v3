@@ -31,4 +31,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT p FROM Post p WHERE  upper(p.title) LIKE CONCAT('%',upper(:keyword),'%')")
     Page<Post> findByKeyword(Pageable pageable, String keyword);
 
+    @Query("SELECT p FROM Post p WHERE  p.status = :status")
+    Page<Post> getAllApprovedBlog(Pageable pageable, boolean status);
+
 }

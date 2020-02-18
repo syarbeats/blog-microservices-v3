@@ -12,6 +12,9 @@ public interface KafkaCustomChannel {
     @Input("BlogCreationInput")
     SubscribableChannel blogCreationSubsChannel();
 
+    @Input("BlogUpdateStatusInput")
+    SubscribableChannel blogUpdateStatusSubsChannel();
+
     @Output("BlogCreationOutput")
     MessageChannel blogCreationPubChannel();
 
