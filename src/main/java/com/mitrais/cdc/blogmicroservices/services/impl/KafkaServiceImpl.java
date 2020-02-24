@@ -31,13 +31,9 @@ public class KafkaServiceImpl implements KafkaService {
         log.info("Send Blog Creation:"+ postPayload);
     }
 
-   /* @Override
-    @StreamListener("BlogUpdateStatusInput")
-    public void subscribeBlogUpdateStatusMessage(@Payload BlogApprovalInProgress blogApprovalInProgress) {
-        log.info("Receive Blog Update Statue data:"+blogApprovalInProgress.getTitle());
-        PostPayload postPayload = postService.findByTitle(blogApprovalInProgress.getTitle()).get();
-        postPayload.setStatus(blogApprovalInProgress.isStatus());
-        postService.save(postPayload);
-        log.info("Blog status updated to {}", postPayload.isStatus());
-    }*/
+    @Override
+    public void sendNotification(PostPayload postPayload) {
+
+    }
+
 }

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Service;
 public interface KafkaService {
 
      void publishBlogCreationMessage(PostPayload postPayload);
-
+     void sendNotification(PostPayload postPayload);
 }

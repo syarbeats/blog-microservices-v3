@@ -9,8 +9,11 @@ import org.springframework.stereotype.Component;
 @Component
 public interface KafkaCustomChannel {
 
-    @Input("BlogCreationInput")
-    SubscribableChannel blogCreationSubsChannel();
+    @Input("BlogNotificationInput")
+    SubscribableChannel blogNotificationSubsChannel();
+
+    @Input("BlogKey")
+    SubscribableChannel blogKeySubsChannel();
 
     @Input("BlogUpdateStatusInput")
     SubscribableChannel blogUpdateStatusSubsChannel();

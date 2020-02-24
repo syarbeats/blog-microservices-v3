@@ -24,11 +24,14 @@ spring:
         BlogCreationOutput:
           destination:  blog-creation
           content-type: application/json
-        BlogCreationInput:
-          destination:  blog-creation
-          content-type: application/json
+        BlogNotificationInput:
+         destination:  blog-notification
+         content-type: application/json
         BlogUpdateStatusInput:
           destination:  blog-approval
+          content-type: application/json
+        BlogKey:
+          destination:  blog-key
           content-type: application/json
       kafka:
         binder:

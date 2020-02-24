@@ -1,7 +1,9 @@
 package com.mitrais.cdc.blogmicroservices.utility;
 
+import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
+@Component
 public class UserContextHolder {
     private static final ThreadLocal<UserContext> userContext = new ThreadLocal<UserContext>();
 
