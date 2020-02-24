@@ -26,6 +26,9 @@ public class PostPayload implements Serializable {
 
     private String categoryName;
 
+
+    private boolean status;
+
     public PostPayload() {
     }
 
@@ -44,6 +47,16 @@ public class PostPayload implements Serializable {
         this.createdDate = createdDate;
         this.categoryId = categoryId;
         this.categoryName = categoryName;
+    }
+
+    public PostPayload(Long id, boolean status, @NotNull String title, String content, @NotNull ZonedDateTime createdDate, Long categoryId, String categoryName) {
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.createdDate = createdDate;
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.status = status;
     }
 
     public PostPayload(@NotNull String title, String content, @NotNull ZonedDateTime createdDate, Long categoryId, String categoryName, String summary) {
@@ -120,4 +133,13 @@ public class PostPayload implements Serializable {
     public void setSummary(String summary) {
         this.summary = summary;
     }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
 }

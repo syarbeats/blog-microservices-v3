@@ -60,6 +60,7 @@ public class PostController extends CrossOriginController{
         log.info("REST request to save Post : {}", postDTO);
         ZonedDateTime zone =ZonedDateTime.now();
         postDTO.setCreatedDate(zone);
+        postDTO.setStatus(false);
 
         if (postDTO.getId() != null) {
             throw new BadRequestAlertException("A new post cannot already have an ID", ENTITY_NAME, "id exists");
