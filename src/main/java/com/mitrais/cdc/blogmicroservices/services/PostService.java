@@ -16,6 +16,6 @@ public interface PostService {
     Optional<PostPayload> findByTitle(String title);
     void delete(Long id);
     Page<PostPayload> findByCategory(Pageable pageable, String category);
-    Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate);
+    Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate, boolean status);
     Page<PostPayload> findByKeywords(Pageable pageable, String keyword);
 }

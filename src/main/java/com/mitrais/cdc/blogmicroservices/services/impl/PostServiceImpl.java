@@ -94,9 +94,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate) {
+    public Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate, boolean status) {
         log.debug("Request to get all Posts based on on certain date");
-        return postRepository.findByCreatedDate(pageable, createdDate, oneDayBeforeCreatedDate).map(postMapper::toDto);
+        return postRepository.findByCreatedDate(pageable, createdDate, oneDayBeforeCreatedDate, status).map(postMapper::toDto);
     }
 
 

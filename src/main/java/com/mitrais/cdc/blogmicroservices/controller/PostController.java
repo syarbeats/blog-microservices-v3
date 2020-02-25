@@ -194,7 +194,7 @@ public class PostController extends CrossOriginController{
         ZonedDateTime beforeToday = ZonedDateTime.now().minusDays(1);
         ZonedDateTime today = ZonedDateTime.now();
 
-        return ResponseEntity.ok(postService.findByCreatedDate(pageable, today, beforeToday).getContent());
+        return ResponseEntity.ok(postService.findByCreatedDate(pageable, today, beforeToday, true).getContent());
 
     }
 
