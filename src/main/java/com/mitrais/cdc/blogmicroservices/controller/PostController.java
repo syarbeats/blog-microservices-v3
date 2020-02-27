@@ -12,6 +12,7 @@ package com.mitrais.cdc.blogmicroservices.controller;
 
 import com.mitrais.cdc.blogmicroservices.exception.BadRequestAlertException;
 import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
+import com.mitrais.cdc.blogmicroservices.payload.BlogStatistic;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
 import com.mitrais.cdc.blogmicroservices.payload.RowNum;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
@@ -223,10 +224,11 @@ public class PostController extends CrossOriginController{
      * @return will return the num for each category
      */
     @GetMapping("/posts/report")
-    public ResponseEntity<List<BlogNumberPerCategory>> getBlogNumberPerCategory(Pageable pageable){
+    public ResponseEntity<List<BlogStatistic>> getBlogNumberPerCategory(Pageable pageable){
         log.debug("REST request to get blog number per category");
 
-        return ResponseEntity.ok(postService.getBlogNumberPerCategory(pageable).getContent());
+        return ResponseEntity.ok(postService.getBlogNumberPerCategory(pageable));
+        /*return ResponseEntity.ok(postService.getBlogNumberPerCategory(pageable).getContent());*/
     }
 
     /**
