@@ -1,5 +1,6 @@
 package com.mitrais.cdc.blogmicroservices.services;
 
+import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -18,4 +19,5 @@ public interface PostService {
     Page<PostPayload> findByCategory(Pageable pageable, String category);
     Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate, boolean status);
     Page<PostPayload> findByKeywords(Pageable pageable, String keyword);
+    Page<BlogNumberPerCategory> getBlogNumberPerCategory(Pageable pageable);
 }

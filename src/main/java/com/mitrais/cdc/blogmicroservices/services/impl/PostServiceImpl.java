@@ -4,6 +4,7 @@ import com.mitrais.cdc.blogmicroservices.entity.Category;
 import com.mitrais.cdc.blogmicroservices.entity.Post;
 import com.mitrais.cdc.blogmicroservices.mapper.PostMapper;
 import com.mitrais.cdc.blogmicroservices.mapper.PostMapperV1;
+import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
 import com.mitrais.cdc.blogmicroservices.payload.CategoryPayload;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
 import com.mitrais.cdc.blogmicroservices.repository.PostRepository;
@@ -37,11 +38,13 @@ public class PostServiceImpl implements PostService {
     private final PostMapperV1 postMapperV1;
     private KafkaService kafkaService;
 
+
     public PostServiceImpl(PostRepository postRepository, PostMapper postMapper, PostMapperV1 postMapperV1, KafkaService kafkaService) {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.postMapperV1 = postMapperV1;
         this.kafkaService = kafkaService;
+
     }
 
     @Override
@@ -105,6 +108,11 @@ public class PostServiceImpl implements PostService {
     public Page<PostPayload> findByKeywords(Pageable pageable, String keyword) {
         log.debug("Request to get all Posts based on keyword");
         return postRepository.findByKeyword(pageable, keyword).map(postMapper::toDto);
+    }
+
+    @Override
+    public Page<BlogNumberPerCategory> getBlogNumberPerCategory(Pageable pageable) {
+        return postRepository.getBlogNumberPercategory(pageable);
     }
 
 }

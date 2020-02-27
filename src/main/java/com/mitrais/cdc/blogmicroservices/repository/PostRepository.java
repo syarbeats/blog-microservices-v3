@@ -1,15 +1,12 @@
 package com.mitrais.cdc.blogmicroservices.repository;
 
-import com.mitrais.cdc.blogmicroservices.entity.Category;
 import com.mitrais.cdc.blogmicroservices.entity.Post;
-import com.mitrais.cdc.blogmicroservices.payload.CategoryPayload;
-import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
+import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
-import javax.swing.text.html.Option;
 import java.time.ZonedDateTime;
 import java.util.Optional;
 
@@ -33,5 +30,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT p FROM Post p WHERE  p.status = :status")
     Page<Post> getAllApprovedBlog(Pageable pageable, boolean status);
+
+    @Query("SELECT new com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory(count(p.category.name), p.category.name)  FROM Post p GROUP BY p.category.name")
+    Page<BlogNumberPerCategory> getBlogNumberPercategory(Pageable pageable);
+
 
 }

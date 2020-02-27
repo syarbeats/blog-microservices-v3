@@ -11,6 +11,7 @@
 package com.mitrais.cdc.blogmicroservices.controller;
 
 import com.mitrais.cdc.blogmicroservices.exception.BadRequestAlertException;
+import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
 import org.slf4j.Logger;
@@ -211,5 +212,19 @@ public class PostController extends CrossOriginController{
         log.debug("REST request to get posts by keyword");
 
         return ResponseEntity.ok(postService.findByKeywords(pageable, keyword).getContent());
+    }
+
+    /**
+     * This method will be used to expose blog data api
+     * for certain keyword.
+     *
+     * @param pageable
+     * @return will return the list of blog data for the given keyword
+     */
+    @GetMapping("/posts/report")
+    public ResponseEntity<List<BlogNumberPerCategory>> getBlogNumberPerCategory(Pageable pageable){
+        log.debug("REST request to get blog number per category");
+
+        return ResponseEntity.ok(postService.getBlogNumberPerCategory(pageable).getContent());
     }
 }
