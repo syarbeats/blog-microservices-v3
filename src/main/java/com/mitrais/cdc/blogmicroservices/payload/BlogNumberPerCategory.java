@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 public class BlogNumberPerCategory {
 
-    /*private String label;*/
     private long y;
     private String label;
 

@@ -2,6 +2,7 @@ package com.mitrais.cdc.blogmicroservices.repository;
 
 import com.mitrais.cdc.blogmicroservices.entity.Post;
 import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
+import com.mitrais.cdc.blogmicroservices.payload.RowNum;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.*;
@@ -34,5 +35,6 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT new com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory(count(p.category.name), p.category.name)  FROM Post p GROUP BY p.category.name")
     Page<BlogNumberPerCategory> getBlogNumberPercategory(Pageable pageable);
 
-
+    @Query("SELECT new com.mitrais.cdc.blogmicroservices.payload.RowNum(count(p)) FROM Post p")
+    RowNum getBlogNumber();
 }

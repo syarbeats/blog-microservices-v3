@@ -7,6 +7,7 @@ import com.mitrais.cdc.blogmicroservices.mapper.PostMapperV1;
 import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
 import com.mitrais.cdc.blogmicroservices.payload.CategoryPayload;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
+import com.mitrais.cdc.blogmicroservices.payload.RowNum;
 import com.mitrais.cdc.blogmicroservices.repository.PostRepository;
 import com.mitrais.cdc.blogmicroservices.services.KafkaService;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
@@ -113,6 +114,11 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<BlogNumberPerCategory> getBlogNumberPerCategory(Pageable pageable) {
         return postRepository.getBlogNumberPercategory(pageable);
+    }
+
+    @Override
+    public RowNum getBlogRowNum() {
+        return postRepository.getBlogNumber();
     }
 
 }

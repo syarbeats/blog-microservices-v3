@@ -13,6 +13,7 @@ package com.mitrais.cdc.blogmicroservices.controller;
 import com.mitrais.cdc.blogmicroservices.exception.BadRequestAlertException;
 import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
+import com.mitrais.cdc.blogmicroservices.payload.RowNum;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -215,16 +216,27 @@ public class PostController extends CrossOriginController{
     }
 
     /**
-     * This method will be used to expose blog data api
-     * for certain keyword.
+     * This method will be used to get Blog Number
+     * per Category.
      *
      * @param pageable
-     * @return will return the list of blog data for the given keyword
+     * @return will return the num for each category
      */
     @GetMapping("/posts/report")
     public ResponseEntity<List<BlogNumberPerCategory>> getBlogNumberPerCategory(Pageable pageable){
         log.debug("REST request to get blog number per category");
 
         return ResponseEntity.ok(postService.getBlogNumberPerCategory(pageable).getContent());
+    }
+
+    /**
+     * This method will be used to get blog number.
+     * @return will return the row num of the whole blog.
+     */
+    @GetMapping("/posts/blog-rownum")
+    public ResponseEntity<RowNum> getBlogNumber(){
+        log.debug("REST request to get blog number per category");
+
+        return ResponseEntity.ok(postService.getBlogRowNum());
     }
 }
