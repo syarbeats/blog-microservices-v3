@@ -23,5 +23,6 @@ public interface PostService {
     Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate, boolean status);
     Page<PostPayload> findByKeywords(Pageable pageable, String keyword);
     List<BlogStatistic> getBlogNumberPerCategory(Pageable pageable);
+    List<BlogStatistic> getBlogNumberPerCategory();
     RowNum getBlogRowNum();
 }

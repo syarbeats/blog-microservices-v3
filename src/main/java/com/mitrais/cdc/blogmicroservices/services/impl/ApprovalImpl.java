@@ -1,8 +1,8 @@
 package com.mitrais.cdc.blogmicroservices.services.impl;
 
-import com.mitrais.cdc.blogmicroservices.payload.BlogApprovalInProgress;
-import com.mitrais.cdc.blogmicroservices.payload.Key;
-import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mitrais.cdc.blogmicroservices.payload.*;
 import com.mitrais.cdc.blogmicroservices.services.Approval;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
 import com.mitrais.cdc.blogmicroservices.utility.UserContextHolder;
@@ -14,7 +14,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -72,12 +74,14 @@ public class ApprovalImpl implements Approval {
             message = "Approval process for "+blogApprovalInProgress.getTitle()+"is still "+blogApprovalInProgress.getApprovalProgress();
         }
 
-        HttpHeaders headers = new HttpHeaders();
+        sendMessage(message, "message", null);
+
+       /* HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.add("User-Agent", "Spring's RestTemplate" );  // value can be whatever
-        /*headers.add("Authorization", "Bearer "+  getKey());*/
+        *//*headers.add("Authorization", "Bearer "+  getKey());*//*
         ResponseEntity<String> testResponse = restTemplate.exchange("http://APPROVAL/send/message?message="+message,
-                HttpMethod.GET, new HttpEntity<>("parameters", headers),  String.class);
+                HttpMethod.GET, new HttpEntity<>("parameters", headers),  String.class);*/
     }
 
     @Override
@@ -85,5 +89,51 @@ public class ApprovalImpl implements Approval {
     public void subsKey(Key key) {
         log.info("KEY:"+key.getKey());
         setKey(key.getKey());
+    }
+
+    @Override
+    @StreamListener("BlogNumberPerCategoryInput")
+    public void sendUpdateChart(BlogApprovalInProgress blogApprovalInProgress) {
+        log.info("Update Chart DATA......with data:"+blogApprovalInProgress.getTitle()+" Category: "+blogApprovalInProgress.getCategoryName());
+        List<BlogStatistic> blogStatisticList = postService.getBlogNumberPerCategory();
+        long rownum =  postService.getBlogRowNum().getRownum();
+
+        for(int i=0; i<blogStatisticList.size(); i++){
+            if(blogStatisticList.get(i).getLabel().trim().equals(blogApprovalInProgress.getCategoryName().trim())){
+                BlogStatistic blogStatistic = new BlogStatistic();
+                blogStatistic.setLabel(blogStatisticList.get(i).getLabel());
+                blogStatistic.setY(blogStatisticList.get(i).getY()+((new Double(1.0)))/new Double(rownum));
+                blogStatisticList.set(i, blogStatistic);
+
+            }
+        }
+
+        sendMessage("","", blogStatisticList);
+        log.info("Updated chart data has beens sent....");
+       /* ObjectMapper objectMapper = new ObjectMapper();
+
+        try {
+            String data = objectMapper.writeValueAsString(blogStatisticList);
+            log.info("DATA JSON:+"+data);
+            sendMessage(data, "", null);
+            log.info("Send Updated data to refresh reporting chart...");
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }*/
+
+    }
+
+    public void sendMessage(String message, String topic, List<BlogStatistic> blogStatisticList){
+        HttpHeaders headers = new HttpHeaders();
+        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+        headers.add("User-Agent", "Spring's RestTemplate" );  // value can be whatever
+
+        if(topic.equals("")){
+            log.info("Send update chart to websocket");
+            String testResponse = restTemplate.postForObject( "http://APPROVAL/update-chart", blogStatisticList, String.class);
+        }else {
+            ResponseEntity<String> testResponse = restTemplate.exchange("http://APPROVAL/send/"+topic+"?message="+message,
+                    HttpMethod.GET, new HttpEntity<>("parameters", headers),  String.class);
+        }
     }
 }

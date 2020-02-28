@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 import java.util.Optional;
 
 
@@ -34,6 +35,9 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query("SELECT new com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory(count(p.category.name), p.category.name)  FROM Post p GROUP BY p.category.name")
     Page<BlogNumberPerCategory> getBlogNumberPercategory(Pageable pageable);
+
+    @Query("SELECT new com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory(count(p.category.name), p.category.name)  FROM Post p GROUP BY p.category.name")
+    List<BlogNumberPerCategory> getBlogNumberPercategory();
 
     @Query("SELECT new com.mitrais.cdc.blogmicroservices.payload.RowNum(count(p)) FROM Post p")
     RowNum getBlogNumber();

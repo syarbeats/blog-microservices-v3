@@ -127,6 +127,22 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<BlogStatistic> getBlogNumberPerCategory() {
+        List<BlogNumberPerCategory> blogNumberPerCategoryList = postRepository.getBlogNumberPercategory();
+        List<BlogStatistic> blogStatisticsList = new ArrayList<>();
+        long rownum = postRepository.getBlogNumber().getRownum();
+
+        for(BlogNumberPerCategory blogNumberPerCategory:blogNumberPerCategoryList){
+            BlogStatistic blogStatistic = new BlogStatistic();
+            blogStatistic.setY(((new Double(blogNumberPerCategory.getY()))/new Double(rownum))*100);
+            blogStatistic.setLabel(blogNumberPerCategory.getLabel());
+            blogStatisticsList.add(blogStatistic);
+        }
+
+        return blogStatisticsList;
+    }
+
+    @Override
     public RowNum getBlogRowNum() {
         return postRepository.getBlogNumber();
     }
