@@ -29,4 +29,9 @@ public interface KafkaCustomChannel {
 
     @Output("BlogCategoryStatisticOutput")
     MessageChannel blogCategoryStatisticOutputPubChannel();
+
+    @Input("BlogApprovaltatisticInput")
+    SubscribableChannel blogApprovalStatisticInputSubsChannel();
+
+
 }

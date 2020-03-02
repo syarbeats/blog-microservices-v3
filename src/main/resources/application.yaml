@@ -42,6 +42,10 @@ spring:
         BlogCategoryStatisticOutput:
           destination:  blog-category-statistic
           content-type: application/json
+        BlogApprovaltatisticInput:
+          destination:  blog-approval-statistic
+          content-type: application/json
+
       kafka:
         binder:
           zkNodes: localhost

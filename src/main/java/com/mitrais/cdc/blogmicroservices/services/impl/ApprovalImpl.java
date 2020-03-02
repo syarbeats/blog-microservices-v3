@@ -77,7 +77,7 @@ public class ApprovalImpl implements Approval {
             message = "Approval process for "+blogApprovalInProgress.getTitle()+"is still "+blogApprovalInProgress.getApprovalProgress();
         }
 
-        sendMessage(message, "message", null, "", null);
+        sendMessage(message, "message", null, "", null, null);
 
        /* HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -113,7 +113,7 @@ public class ApprovalImpl implements Approval {
             }
         }
 
-        sendMessage("","", blogStatisticList, "", null);
+        sendMessage("","", blogStatisticList, "", null, null);
         log.info("Updated chart data has been sent to websocket....");
         /*this.kafkaService.sendBlogStatistic(blogStatisticList);
         log.info("Updated statistic data has been sent to kafka channel...");*/
@@ -124,12 +124,18 @@ public class ApprovalImpl implements Approval {
     public void sendUpdateChartV2(BlogApprovalInProgress blogApprovalInProgress) {
         log.info("Update Chart DATA......with data:"+blogApprovalInProgress.getTitle()+" Category: "+blogApprovalInProgress.getCategoryName());
         List<BlogNumberPerCategory> blogNumberPerCategoryList = postService.getBlogNumberPerCategoryV2();
-        sendMessage("","", null, "amount", blogNumberPerCategoryList);
+        sendMessage("","", null, "amount", blogNumberPerCategoryList, null);
         log.info("Updated chart data has been sent to websocket....");
 
     }
 
-    public void sendMessage(String message, String topic, List<BlogStatistic> blogStatisticList, String mode, List<BlogNumberPerCategory> blogNumberPerCategoryList){
+    @Override
+    @StreamListener("BlogApprovaltatisticInput")
+    public void sendUpdateApprovalStatisticChart(List<ApprovalNumberPerProgress> approvalNumberPerProgress) {
+        sendMessage("","",null,"approval-statistic", null, approvalNumberPerProgress);
+    }
+
+    public void sendMessage(String message, String topic, List<BlogStatistic> blogStatisticList, String mode, List<BlogNumberPerCategory> blogNumberPerCategoryList, List<ApprovalNumberPerProgress> approvalNumberPerProgress){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.add("User-Agent", "Spring's RestTemplate" );  // value can be whatever
@@ -140,9 +146,11 @@ public class ApprovalImpl implements Approval {
             if(mode.equals("")){
                 log.info("Sent percentage");
                 String testResponse = restTemplate.postForObject( "http://APPROVAL/update-chart", blogStatisticList, String.class);
-            }else{
+            }else if(mode.equals("amount")){
                 log.info("Sent Amount");
                 String testResponse = restTemplate.postForObject( "http://APPROVAL/update-chart-v2", blogNumberPerCategoryList, String.class);
+            }else if(mode.equals("approval-statistic")){
+                String testResponse = restTemplate.postForObject( "http://APPROVAL/update-approval-chart", approvalNumberPerProgress, String.class);
             }
 
         }else {
@@ -150,4 +158,6 @@ public class ApprovalImpl implements Approval {
                     HttpMethod.GET, new HttpEntity<>("parameters", headers),  String.class);
         }
     }
+
+
 }
