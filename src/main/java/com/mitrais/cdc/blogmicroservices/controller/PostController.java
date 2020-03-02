@@ -232,6 +232,20 @@ public class PostController extends CrossOriginController{
     }
 
     /**
+     * This method will be used to get Blog Number
+     * per Category.
+     *
+     * @param pageable
+     * @return will return the num for each category
+     */
+    @GetMapping("/posts/report-v2")
+    public ResponseEntity<List<BlogNumberPerCategory>> getBlogNumberPerCategoryV2(Pageable pageable){
+        log.debug("REST request to get blog number per category");
+
+        return ResponseEntity.ok(postService.getBlogNumberPerCategoryV2(pageable));
+    }
+
+    /**
      * This method will be used to get blog number.
      * @return will return the row num of the whole blog.
      */

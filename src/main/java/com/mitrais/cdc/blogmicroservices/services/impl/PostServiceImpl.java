@@ -127,6 +127,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public List<BlogNumberPerCategory> getBlogNumberPerCategoryV2(Pageable pageable) {
+        return postRepository.getBlogNumberPercategory(pageable).getContent();
+    }
+
+
+    @Override
     public List<BlogStatistic> getBlogNumberPerCategory() {
         List<BlogNumberPerCategory> blogNumberPerCategoryList = postRepository.getBlogNumberPercategory();
         List<BlogStatistic> blogStatisticsList = new ArrayList<>();
@@ -140,6 +146,11 @@ public class PostServiceImpl implements PostService {
         }
 
         return blogStatisticsList;
+    }
+
+    @Override
+    public List<BlogNumberPerCategory> getBlogNumberPerCategoryV2() {
+        return postRepository.getBlogNumberPercategory();
     }
 
     @Override

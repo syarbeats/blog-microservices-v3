@@ -1,6 +1,7 @@
 package com.mitrais.cdc.blogmicroservices.services.impl;
 
 import com.mitrais.cdc.blogmicroservices.payload.BlogApprovalInProgress;
+import com.mitrais.cdc.blogmicroservices.payload.BlogStatistic;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
 import com.mitrais.cdc.blogmicroservices.services.KafkaService;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
@@ -11,6 +12,8 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -34,6 +37,11 @@ public class KafkaServiceImpl implements KafkaService {
     @Override
     public void sendNotification(PostPayload postPayload) {
 
+    }
+
+    @Override
+    public void sendBlogStatistic(List<BlogStatistic> blogStatisticList) {
+        this.kafkaCustomChannel.blogCategoryStatisticOutputPubChannel().send(MessageBuilder.withPayload(blogStatisticList).build());
     }
 
 }

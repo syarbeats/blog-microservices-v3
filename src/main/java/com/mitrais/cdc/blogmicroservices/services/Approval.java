@@ -10,5 +10,6 @@ public interface Approval {
     void subscribeBlogSendUpdateStatusNotification(BlogApprovalInProgress blogApprovalInProgress);
     void subsKey(Key key);
     void sendUpdateChart(BlogApprovalInProgress blogApprovalInProgress);
+    void sendUpdateChartV2(BlogApprovalInProgress blogApprovalInProgress);
 }
 
