@@ -12,6 +12,7 @@ secret key sharing between gateway application and its microservices.
 3. Blog-app-config: https://github.com/syarbeats/configuration-server.git
 4. Gateway Application: https://github.com/syarbeats/gateway-application-v3.git
 5. Approval Microservice: https://github.com/syarbeats/approval-service.git
+6. Frontend: https://github.com/syarbeats/blog-frontend-application.git
 
 ## URL
 1. Spring Eureuka URL: http://localhost:8761/
@@ -27,6 +28,8 @@ secret key sharing between gateway application and its microservices.
 5. Cucumber & JUnit for High Level's Like Integration Testing
 6. Cucumber for Frontend High Level Testing (Frontend: https://github.com/syarbeats/blog-frontend-application.git)
 7. Chrome Webdriver
+8. Apache Kafka
+9. Websocket
 
 
 ### Postman Screenshot Example (Get All Posts for certain category)
