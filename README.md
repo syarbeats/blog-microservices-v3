@@ -29,6 +29,7 @@ secret key sharing between gateway application and its microservices.
 6. Cucumber for Frontend High Level Testing (Frontend: https://github.com/syarbeats/blog-frontend-application.git)
 7. Chrome Webdriver
 8. Apache Kafka
+9. Websocket
 
 
 ### Postman Screenshot Example (Get All Posts for certain category)
