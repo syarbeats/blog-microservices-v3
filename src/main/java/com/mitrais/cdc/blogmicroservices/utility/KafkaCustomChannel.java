@@ -33,5 +33,10 @@ public interface KafkaCustomChannel {
     @Input("BlogApprovaltatisticInput")
     SubscribableChannel blogApprovalStatisticInputSubsChannel();
 
+    @Input("BlogApprovalResultStatisticInput")
+    SubscribableChannel blogApprovalResultStatisticInputSubsChannel();
+
+    @Input("BlogApprovalStatisticV2Input")
+    SubscribableChannel BlogApprovalStatisticV2InputSubsChannel();
 
 }

@@ -135,6 +135,22 @@ public class ApprovalImpl implements Approval {
         sendMessage("","",null,"approval-statistic", null, approvalNumberPerProgress);
     }
 
+    @Override
+    @StreamListener("BlogApprovalResultStatisticInput")
+    public void sendUpdateApprovalResultStatistic(List<ApprovalResultStatistic> approvalResultStatistic) {
+        sendUpdateApprovalResult(approvalResultStatistic);
+    }
+
+    @Override
+    @StreamListener("BlogApprovalStatisticV2Input")
+    public void sendUpdateApprovalStatisticChartV2(List<ApprovalNumberPerProgressResponse> approvalNumberPerProgressResponses) {
+        sendUpdateApprovalStatisticV2(approvalNumberPerProgressResponses);
+    }
+
+    private void sendUpdateApprovalStatisticV2(List<ApprovalNumberPerProgressResponse> approvalNumberPerProgressResponses) {
+        String testResponse = restTemplate.postForObject( "http://APPROVAL/update-approval-statistic-v2-chart", approvalNumberPerProgressResponses, String.class);
+    }
+
     public void sendMessage(String message, String topic, List<BlogStatistic> blogStatisticList, String mode, List<BlogNumberPerCategory> blogNumberPerCategoryList, List<ApprovalNumberPerProgress> approvalNumberPerProgress){
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
@@ -157,6 +173,10 @@ public class ApprovalImpl implements Approval {
             ResponseEntity<String> testResponse = restTemplate.exchange("http://APPROVAL/send/"+topic+"?message="+message,
                     HttpMethod.GET, new HttpEntity<>("parameters", headers),  String.class);
         }
+    }
+
+    public void sendUpdateApprovalResult(List<ApprovalResultStatistic> approvalResultStatistics){
+        String testResponse = restTemplate.postForObject( "http://APPROVAL/update-approval-result-chart", approvalResultStatistics, String.class);
     }
 
 

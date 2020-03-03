@@ -45,6 +45,12 @@ spring:
         BlogApprovaltatisticInput:
           destination:  blog-approval-statistic
           content-type: application/json
+        BlogApprovalResultStatisticInput:
+          destination:  blog-approval-result-statistic
+          content-type: application/json
+        BlogApprovalStatisticV2Input:
+          destination:  blog-approval-statistic-v2
+          content-type: application/json
 
       kafka:
         binder:
