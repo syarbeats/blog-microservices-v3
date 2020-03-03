@@ -19,5 +19,7 @@ public interface Approval {
 
     void sendUpdateApprovalResultStatistic(List<ApprovalResultStatistic> approvalResultStatistic);
 
+    void sendUpdateApprovalResultStatisticV2(List<ApprovalNumberPerProgressResponse> approvalNumberPerProgressResponses);
+
     void sendUpdateApprovalStatisticChartV2(List<ApprovalNumberPerProgressResponse> approvalNumberPerProgressResponses);
 }

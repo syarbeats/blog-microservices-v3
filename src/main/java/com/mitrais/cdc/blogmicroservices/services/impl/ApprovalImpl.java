@@ -142,6 +142,16 @@ public class ApprovalImpl implements Approval {
     }
 
     @Override
+    @StreamListener("BlogApprovalResultStatisticV2Input")
+    public void sendUpdateApprovalResultStatisticV2(List<ApprovalNumberPerProgressResponse> approvalNumberPerProgressResponses) {
+        sendUpdateApprovalResultV2(approvalNumberPerProgressResponses);
+    }
+
+    private void sendUpdateApprovalResultV2(List<ApprovalNumberPerProgressResponse> approvalNumberPerProgressResponses) {
+        String testResponse = restTemplate.postForObject( "http://APPROVAL/update-approval-result-chart-v2", approvalNumberPerProgressResponses, String.class);
+    }
+
+    @Override
     @StreamListener("BlogApprovalStatisticV2Input")
     public void sendUpdateApprovalStatisticChartV2(List<ApprovalNumberPerProgressResponse> approvalNumberPerProgressResponses) {
         sendUpdateApprovalStatisticV2(approvalNumberPerProgressResponses);
