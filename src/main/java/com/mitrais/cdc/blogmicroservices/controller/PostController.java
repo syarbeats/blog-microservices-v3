@@ -11,7 +11,10 @@
 package com.mitrais.cdc.blogmicroservices.controller;
 
 import com.mitrais.cdc.blogmicroservices.exception.BadRequestAlertException;
+import com.mitrais.cdc.blogmicroservices.payload.BlogNumberPerCategory;
+import com.mitrais.cdc.blogmicroservices.payload.BlogStatistic;
 import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
+import com.mitrais.cdc.blogmicroservices.payload.RowNum;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -194,7 +197,7 @@ public class PostController extends CrossOriginController{
         ZonedDateTime beforeToday = ZonedDateTime.now().minusDays(1);
         ZonedDateTime today = ZonedDateTime.now();
 
-        return ResponseEntity.ok(postService.findByCreatedDate(pageable, today, beforeToday).getContent());
+        return ResponseEntity.ok(postService.findByCreatedDate(pageable, today, beforeToday, true).getContent());
 
     }
 
@@ -211,5 +214,45 @@ public class PostController extends CrossOriginController{
         log.debug("REST request to get posts by keyword");
 
         return ResponseEntity.ok(postService.findByKeywords(pageable, keyword).getContent());
+    }
+
+    /**
+     * This method will be used to get Blog Number
+     * per Category.
+     *
+     * @param pageable
+     * @return will return the num for each category
+     */
+    @GetMapping("/posts/report")
+    public ResponseEntity<List<BlogStatistic>> getBlogNumberPerCategory(Pageable pageable){
+        log.debug("REST request to get blog number per category");
+
+        return ResponseEntity.ok(postService.getBlogNumberPerCategory(pageable));
+        /*return ResponseEntity.ok(postService.getBlogNumberPerCategory(pageable).getContent());*/
+    }
+
+    /**
+     * This method will be used to get Blog Number
+     * per Category.
+     *
+     * @param pageable
+     * @return will return the num for each category
+     */
+    @GetMapping("/posts/report-v2")
+    public ResponseEntity<List<BlogNumberPerCategory>> getBlogNumberPerCategoryV2(Pageable pageable){
+        log.debug("REST request to get blog number per category");
+
+        return ResponseEntity.ok(postService.getBlogNumberPerCategoryV2(pageable));
+    }
+
+    /**
+     * This method will be used to get blog number.
+     * @return will return the row num of the whole blog.
+     */
+    @GetMapping("/posts/blog-rownum")
+    public ResponseEntity<RowNum> getBlogNumber(){
+        log.debug("REST request to get blog number per category");
+
+        return ResponseEntity.ok(postService.getBlogRowNum());
     }
 }

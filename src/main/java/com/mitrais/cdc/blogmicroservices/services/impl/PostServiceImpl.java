@@ -4,8 +4,7 @@ import com.mitrais.cdc.blogmicroservices.entity.Category;
 import com.mitrais.cdc.blogmicroservices.entity.Post;
 import com.mitrais.cdc.blogmicroservices.mapper.PostMapper;
 import com.mitrais.cdc.blogmicroservices.mapper.PostMapperV1;
-import com.mitrais.cdc.blogmicroservices.payload.CategoryPayload;
-import com.mitrais.cdc.blogmicroservices.payload.PostPayload;
+import com.mitrais.cdc.blogmicroservices.payload.*;
 import com.mitrais.cdc.blogmicroservices.repository.PostRepository;
 import com.mitrais.cdc.blogmicroservices.services.KafkaService;
 import com.mitrais.cdc.blogmicroservices.services.PostService;
@@ -37,11 +36,13 @@ public class PostServiceImpl implements PostService {
     private final PostMapperV1 postMapperV1;
     private KafkaService kafkaService;
 
+
     public PostServiceImpl(PostRepository postRepository, PostMapper postMapper, PostMapperV1 postMapperV1, KafkaService kafkaService) {
         this.postRepository = postRepository;
         this.postMapper = postMapper;
         this.postMapperV1 = postMapperV1;
         this.kafkaService = kafkaService;
+
     }
 
     @Override
@@ -94,9 +95,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate) {
+    public Page<PostPayload> findByCreatedDate(Pageable pageable, ZonedDateTime createdDate, ZonedDateTime oneDayBeforeCreatedDate, boolean status) {
         log.debug("Request to get all Posts based on on certain date");
-        return postRepository.findByCreatedDate(pageable, createdDate, oneDayBeforeCreatedDate).map(postMapper::toDto);
+        return postRepository.findByCreatedDate(pageable, createdDate, oneDayBeforeCreatedDate, status).map(postMapper::toDto);
     }
 
 
@@ -105,6 +106,56 @@ public class PostServiceImpl implements PostService {
     public Page<PostPayload> findByKeywords(Pageable pageable, String keyword) {
         log.debug("Request to get all Posts based on keyword");
         return postRepository.findByKeyword(pageable, keyword).map(postMapper::toDto);
+    }
+
+    @Override
+    /*public Page<BlogNumberPerCategory> getBlogNumberPerCategory(Pageable pageable) {*/
+    public List<BlogStatistic> getBlogNumberPerCategory(Pageable pageable) {
+        List<BlogNumberPerCategory> blogNumberPerCategoryList = postRepository.getBlogNumberPercategory(pageable).getContent();
+        List<BlogStatistic> blogStatisticsList = new ArrayList<>();
+        long rownum = postRepository.getBlogNumber().getRownum();
+
+        for(BlogNumberPerCategory blogNumberPerCategory:blogNumberPerCategoryList){
+            BlogStatistic blogStatistic = new BlogStatistic();
+            blogStatistic.setY(((new Double(blogNumberPerCategory.getY()))/new Double(rownum))*100);
+            blogStatistic.setLabel(blogNumberPerCategory.getLabel());
+            blogStatisticsList.add(blogStatistic);
+        }
+
+        return blogStatisticsList;
+        /*return postRepository.getBlogNumberPercategory(pageable);*/
+    }
+
+    @Override
+    public List<BlogNumberPerCategory> getBlogNumberPerCategoryV2(Pageable pageable) {
+        return postRepository.getBlogNumberPercategory(pageable).getContent();
+    }
+
+
+    @Override
+    public List<BlogStatistic> getBlogNumberPerCategory() {
+        List<BlogNumberPerCategory> blogNumberPerCategoryList = postRepository.getBlogNumberPercategory();
+        List<BlogStatistic> blogStatisticsList = new ArrayList<>();
+        long rownum = postRepository.getBlogNumber().getRownum();
+
+        for(BlogNumberPerCategory blogNumberPerCategory:blogNumberPerCategoryList){
+            BlogStatistic blogStatistic = new BlogStatistic();
+            blogStatistic.setY(((new Double(blogNumberPerCategory.getY()))/new Double(rownum))*100);
+            blogStatistic.setLabel(blogNumberPerCategory.getLabel());
+            blogStatisticsList.add(blogStatistic);
+        }
+
+        return blogStatisticsList;
+    }
+
+    @Override
+    public List<BlogNumberPerCategory> getBlogNumberPerCategoryV2() {
+        return postRepository.getBlogNumberPercategory();
+    }
+
+    @Override
+    public RowNum getBlogRowNum() {
+        return postRepository.getBlogNumber();
     }
 
 }
