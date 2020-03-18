@@ -159,6 +159,16 @@
             <artifactId>spring-cloud-starter-stream-kafka</artifactId>
             <version>3.0.0.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>io.reactivex.rxjava2</groupId>
+            <artifactId>rxjava</artifactId>
+            <version>2.2.10</version>
+        </dependency>
+        <dependency>
+            <groupId>io.reactivex</groupId>
+            <artifactId>rxjava-reactive-streams</artifactId>
+            <version>1.2.1</version>
+        </dependency>
     </dependencies>
 
     <build>
