@@ -13,12 +13,14 @@ import com.mitrais.cdc.blogmicroservices.services.ReactivePostServices;
 import io.reactivex.Single;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ReactivePostServicesImpl implements ReactivePostServices {
 
     private PostRepository postRepository;
@@ -36,6 +38,10 @@ public class ReactivePostServicesImpl implements ReactivePostServices {
     @Override
     public Single<PostPayload> save(PostPayload postDTO) {
         return Single.create(save -> {
+            ZonedDateTime zone =ZonedDateTime.now();
+            postDTO.setCreatedDate(zone);
+            postDTO.setStatus(false);
+
             Post post = postMapper.toEntity(postDTO);
             post = postRepository.save(post);
             postDTO.setId(post.getId());
