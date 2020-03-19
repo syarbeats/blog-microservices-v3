@@ -77,8 +77,8 @@ public class ReactiveCommentServicesImpl implements ReactiveCommentServices {
     }
 
     @Override
-    public Single<Page<Comment>> findAllCommentByTitleV2(Pageable pageable, String title) {
-        return Single.create(find -> find.onSuccess(commentRepository.findAllCommentByTitle(pageable, title)));
+    public Single<Page<CommentPayload>> findAllCommentByTitleV2(Pageable pageable, String title) {
+        return Single.create(find -> find.onSuccess(commentRepository.findAllCommentByTitle(pageable, title).map(commentMapper::toDto)));
     }
 
 

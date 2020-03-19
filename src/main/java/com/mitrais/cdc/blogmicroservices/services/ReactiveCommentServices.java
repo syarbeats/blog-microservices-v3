@@ -16,5 +16,5 @@ public interface ReactiveCommentServices {
     Single<Optional<CommentPayload>> findByComment(String comment);
     Single<String> delete(Long id);
     Single<List<CommentPayload>> findAllCommentByPostTitle(String title);
-    Single<Page<Comment>> findAllCommentByTitleV2(Pageable pageable, String title);
+    Single<Page<CommentPayload>> findAllCommentByTitleV2(Pageable pageable, String title);
 }
