@@ -31,10 +31,11 @@ public class PostControllerTest {
     @Transactional
     @Rollback(true)
     public void createPost() throws URISyntaxException {
-        ResponseEntity<PostPayload> responseEntity = postController.createPost(new PostPayload("Blog number one", "This is the content of blog", ZonedDateTime.now(), new Long(2), "Web Application"));
+        ResponseEntity<PostPayload> responseEntity = postController.createPost(new PostPayload("Blog number one", "Java Virtual Machine (JVM) is the heart of java programming language. JVM is responsible for converting byte code into machine readable code. JVM is not platform independent, thats why you have different JVM for different operating systems. We can customize JVM with Java Options, such as allocating minimum and maximum memory to JVM. It’s called virtual because it provides an interface that doesn’t depend on the underlying OS.", ZonedDateTime.now(), new Long(2), "Web Application","Java Virtual Machine (JVM) is the heart of java programming language. JVM is responsible for converting byte code into machine readable code. JVM is not platform independent, thats why you have different JVM for different operating systems. We can customize JVM with Java Options, such as allocating minimum and maximum memory to JVM. It’s called virtual because it provides an interface that doesn’t depend on the underlying OS."));
 
         assertThat("Blog number one", is(responseEntity.getBody().getTitle()));
-        assertThat("This is the content of blog", is(responseEntity.getBody().getContent()));
+        assertThat("Java Virtual Machine (JVM) is the heart of java programming language. JVM is responsible for converting byte code into machine readable code. JVM is not platform independent, thats why you have different JVM for different operating systems. We can customize JVM with Java Options, such as allocating minimum and maximum memory to JVM. It’s called virtual because it provides an interface that doesn’t depend on the underlying OS.", is(responseEntity.getBody().getContent()));
+        assertThat("Java Virtual Machine (JVM) is the heart of java programming language. JVM is responsible for converting byte code into machine readable code. JVM is not platform independent, thats why you", is(responseEntity.getBody().getSummary()));
         assertThat(String.valueOf(2), is(String.valueOf(responseEntity.getBody().getCategoryId())));
     }
 

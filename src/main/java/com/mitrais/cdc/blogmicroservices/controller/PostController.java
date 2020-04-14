@@ -64,7 +64,13 @@ public class PostController extends CrossOriginController{
         ZonedDateTime zone =ZonedDateTime.now();
         postDTO.setCreatedDate(zone);
         postDTO.setStatus(false);
-
+        String words[] = postDTO.getSummary().split(" ");
+        String summary = "";
+        for (int i = 0; i < 30; i++){
+            summary+=words[i]+" ";
+        }
+        summary.trim();
+        postDTO.setSummary(summary);
         if (postDTO.getId() != null) {
             throw new BadRequestAlertException("A new post cannot already have an ID", ENTITY_NAME, "id exists");
         }
